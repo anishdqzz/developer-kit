@@ -1,8 +1,155 @@
-import { Code2, Menu, X, Home, Sun, Moon } from "lucide-react";
+// import { Code2, Menu, X, Home, Sun, Moon } from "lucide-react";
+// import { useState, useEffect, useRef } from "react";
+// import { Link, useLocation } from "react-router-dom";
+// import { Button } from "./ui/button";
+// import { useTheme } from "./ThemeProvider";
+
+// export const Navigation = () => {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const { theme, toggleTheme } = useTheme();
+//   const location = useLocation();
+//   const [typedText, setTypedText] = useState("");
+//   const fullText = "OopsDev";
+//   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+//   useEffect(() => {
+//     const type = (index: number) => {
+//       if (index <= fullText.length) {
+//         setTypedText(fullText.slice(0, index));
+//         timeoutRef.current = setTimeout(() => type(index + 1), 200);
+//       } else {
+//         timeoutRef.current = setTimeout(() => deleteText(fullText.length), 2000);
+//       }
+//     };
+
+//     const deleteText = (index: number) => {
+//       if (index >= 0) {
+//         setTypedText(fullText.slice(0, index));
+//         timeoutRef.current = setTimeout(() => deleteText(index - 1), 100);
+//       } else {
+//         timeoutRef.current = setTimeout(() => type(0), 500);
+//       }
+//     };
+
+//     type(0);
+
+//     return () => {
+//       if (timeoutRef.current) {
+//         clearTimeout(timeoutRef.current);
+//       }
+//     };
+//   }, []);
+
+//   const handleScrollTo = (id: string) => {
+//     setIsOpen(false);
+//     if (location.pathname === "/") {
+//       const element = document.getElementById(id);
+//       if (element) {
+//         element.scrollIntoView({ behavior: "smooth" });
+//       } else {
+//         window.scrollTo({ top: 0, behavior: "smooth" });
+//       }
+//     } else {
+//       window.location.href = `/#${id}`;
+//     }
+//   };
+
+//   return (
+//     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+//       <div className="container mx-auto px-4">
+//         <div className="flex items-center justify-between h-16">
+//           <Link to="/" onClick={() => handleScrollTo('home')} className="flex items-center gap-2">
+//             <Code2 className="h-8 w-8 text-primary" />
+//             <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+//               {typedText}
+//               <span className="typewriter-cursor">|</span>
+//             </span>
+//           </Link>
+
+//           {/* Desktop Navigation */}
+//           <div className="hidden md:flex items-center gap-6">
+//             <Link to="/" onClick={() => handleScrollTo('home')} className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
+//               <Home className="h-4 w-4" />
+//               <span>Home</span>
+//             </Link>
+//             <a onClick={() => handleScrollTo('tools')} className="cursor-pointer text-foreground hover:text-primary transition-colors">
+//               Tools
+//             </a>
+//             <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
+//               Contact
+//             </Link>
+//             <Link to="/auth">
+//               <Button variant="outline">
+//                 Login
+//               </Button>
+//             </Link>
+//             <Button variant="ghost" size="icon" onClick={toggleTheme}>
+//               {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+//             </Button>
+//           </div>
+
+//           {/* Mobile Menu Button */}
+//           <button
+//             className="md:hidden text-foreground"
+//             onClick={() => setIsOpen(!isOpen)}
+//           >
+//             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+//           </button>
+//         </div>
+
+//         {/* Mobile Navigation */}
+//         {isOpen && (
+//           <div className="md:hidden py-4 space-y-4">
+//             <Link
+//               to="/"
+//               className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+//               onClick={() => handleScrollTo('home')}
+//             >
+//               <Home className="h-4 w-4" />
+//               <span>Home</span>
+//             </Link>
+//             <a
+//               onClick={() => handleScrollTo('tools')}
+//               className="block cursor-pointer text-foreground hover:text-primary transition-colors"
+//             >
+//               Tools
+//             </a>
+//             <Link
+//               to="/contact"
+//               className="block text-foreground hover:text-primary transition-colors"
+//               onClick={() => setIsOpen(false)}
+//             >
+//               Contact
+//             </Link>
+//             <div className="flex items-center justify-between">
+//               <Link to="/auth" onClick={() => setIsOpen(false)} className="w-full pr-2">
+//                 <Button variant="outline" className="w-full">
+//                   Login
+//                 </Button>
+//               </Link>
+//               <Button variant="ghost" size="icon" onClick={toggleTheme}>
+//                 {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+//               </Button>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </nav>
+//   );
+// };
+
+
+import { Code2, Menu, X, Home, Sun, Moon, User } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useTheme } from "./ThemeProvider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +158,14 @@ export const Navigation = () => {
   const [typedText, setTypedText] = useState("");
   const fullText = "OopsDev";
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   useEffect(() => {
     const type = (index: number) => {
@@ -54,11 +209,21 @@ export const Navigation = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    window.location.href = "/auth";
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" onClick={() => handleScrollTo('home')} className="flex items-center gap-2">
+          <Link
+            to="/"
+            onClick={() => handleScrollTo("home")}
+            className="flex items-center gap-2"
+          >
             <Code2 className="h-8 w-8 text-primary" />
             <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               {typedText}
@@ -68,23 +233,50 @@ export const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            <Link to="/" onClick={() => handleScrollTo('home')} className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/"
+              onClick={() => handleScrollTo("home")}
+              className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+            >
               <Home className="h-4 w-4" />
               <span>Home</span>
             </Link>
-            <a onClick={() => handleScrollTo('tools')} className="cursor-pointer text-foreground hover:text-primary transition-colors">
+            <a
+              onClick={() => handleScrollTo("tools")}
+              className="cursor-pointer text-foreground hover:text-primary transition-colors"
+            >
               Tools
             </a>
-            <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/contact"
+              className="text-foreground hover:text-primary transition-colors"
+            >
               Contact
             </Link>
-            <Link to="/auth">
-              <Button variant="outline">
-                Login
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth">
+                <Button variant="outline">Login</Button>
+              </Link>
+            )}
             <Button variant="ghost" size="icon" onClick={toggleTheme}>
-              {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+              {theme === "light" ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
+              )}
             </Button>
           </div>
 
@@ -103,13 +295,13 @@ export const Navigation = () => {
             <Link
               to="/"
               className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-              onClick={() => handleScrollTo('home')}
+              onClick={() => handleScrollTo("home")}
             >
               <Home className="h-4 w-4" />
               <span>Home</span>
             </Link>
             <a
-              onClick={() => handleScrollTo('tools')}
+              onClick={() => handleScrollTo("tools")}
               className="block cursor-pointer text-foreground hover:text-primary transition-colors"
             >
               Tools
@@ -122,13 +314,37 @@ export const Navigation = () => {
               Contact
             </Link>
             <div className="flex items-center justify-between">
-              <Link to="/auth" onClick={() => setIsOpen(false)} className="w-full pr-2">
-                <Button variant="outline" className="w-full">
-                  Login
-                </Button>
-              </Link>
+              {isLoggedIn ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="w-full">
+                      <User className="h-5 w-5 mr-2" />
+                      Profile
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={handleLogout}>
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link
+                  to="/auth"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full pr-2"
+                >
+                  <Button variant="outline" className="w-full">
+                    Login
+                  </Button>
+                </Link>
+              )}
               <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+                {theme === "light" ? (
+                  <Moon className="h-5 w-5" />
+                ) : (
+                  <Sun className="h-5 w-5" />
+                )}
               </Button>
             </div>
           </div>
