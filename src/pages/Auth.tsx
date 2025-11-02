@@ -15,34 +15,55 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if ((isSignUp && !username) || !email || !password) {
-      toast.error("Please fill in all fields");
-      return;
-    }
+  if ((isSignUp && !username) || !email || !password) {
+    toast.error("Please fill in all fields");
+    return;
+  }
 
-    if (isSignUp && password !== confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
+  if (isSignUp && password !== confirmPassword) {
+    toast.error("Passwords do not match");
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    if (isSignUp) {
-      // Placeholder for sign-up functionality
-      setTimeout(() => {
-        toast.success("Sign-up functionality coming soon!");
-        setLoading(false);
-      }, 1000);
+  try {
+    const response = await fetch(
+  `http://localhost:8080/api/${isSignUp ? "signup" : "login"}`,
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, email, password }),
+  }
+);
+
+  
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      toast.error(data.message || "Something went wrong");
     } else {
-      // Placeholder for login functionality
-      setTimeout(() => {
-        toast.success("Login functionality coming soon!");
-        setLoading(false);
-      }, 1000);
+      toast.success(data.message || (isSignUp ? "Signup successful!" : "Login successful!"));
+      
+      // Optional: Save token or user data for login sessions
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      // You can redirect to dashboard or home page here
+      // window.location.href = "/dashboard";
     }
-  };
+  } catch (error) {
+    toast.error("Server error. Please try again later.");
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex flex-col">
