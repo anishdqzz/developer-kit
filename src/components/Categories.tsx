@@ -1,4 +1,4 @@
-import { Code, Palette, Braces, Layers } from "lucide-react";
+import { Code, Palette, Braces, Layers, Link as LinkIcon } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Link } from "react-router-dom";
 
@@ -26,6 +26,12 @@ const categories = [
     title: "React Helpers",
     description: "Learn react With examples",
     path: "/react",
+  },
+  {
+    icon: LinkIcon,
+    title: "CDN Links",
+    description: "Find CDN links for popular libraries",
+    path: "/cdn-links",
   },
 ];
 

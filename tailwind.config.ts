@@ -51,6 +51,7 @@ export default {
       backgroundImage: {
         'gradient-primary': 'var(--gradient-primary)',
         'gradient-secondary': 'var(--gradient-secondary)',
+        'hero-background': "url('/Background.jpg')",
       },
       boxShadow: {
         'glow': 'var(--shadow-glow)',

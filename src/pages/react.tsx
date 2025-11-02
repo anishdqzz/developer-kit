@@ -3,6 +3,32 @@ import { CheatSheet } from "@/components/Cheatsheet";
 
 const reactCheatsheet = [
   {
+    title: "Installation & Setup (React + Vite)",
+    code: `# 1. Create a new React project with TypeScript using Vite
+npm create vite@latest my-react-app -- --template react-ts
+
+# 2. Navigate into your new project directory
+cd my-react-app
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the development server
+npm run dev`
+  },
+  {
+    title: "Folder Structure",
+    code: `my-react-app/
+├── public/              # Static assets that are not processed by Vite
+├── src/                 # Your application's source code
+│   ├── assets/          # Images, fonts, etc.
+│   ├── App.tsx          # The main component of your application
+│   └── main.tsx         # The entry point that renders the App component
+├── index.html           # The main HTML file for your app
+├── package.json         # Project dependencies and scripts
+└── vite.config.ts       # Vite configuration file`
+  },
+  {
     title: "Class Component",
     code: `class MyComponent extends React.Component {
   render() {

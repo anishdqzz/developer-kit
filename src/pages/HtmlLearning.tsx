@@ -2,6 +2,28 @@ import React, { useState, useEffect } from 'react';
 
 const htmlTags = [
   {
+    tagName: "Installation & Setup",
+    description: "Learn how to set up an HTML file and run it in your browser.",
+    example: `<!-- HTML requires no installation! -->
+
+<!-- 1. Create a file named index.html -->
+
+<!-- 2. Paste this code into the file: -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My First HTML Page</title>
+</head>
+<body>
+  <h1>Hello, World!</h1>
+  <p>This is my first webpage.</p>
+</body>
+</html>
+
+<!-- 3. Open the index.html file in your web browser to see the result. -->
+`
+  },
+  {
     tagName: "<h1> to <h6>",
     description: "Heading tags are used to define headings in a document. <h1> is the most important heading, while <h6> is the least important.",
     example: "<h1>This is a heading</h1>",
@@ -196,14 +218,6 @@ const themes = {
   light: {
     bgColor: '#ffffff',
     textColor: '#000000',
-  },
-  blueprint: {
-    bgColor: '#3c6e71',
-    textColor: '#ffffff',
-  },
-  forest: {
-    bgColor: '#283618',
-    textColor: '#fefae0',
   },
 };
 

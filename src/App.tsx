@@ -21,6 +21,7 @@ import NotFound from "./pages/NotFound";
 import HtmlLearning from "./pages/HtmlLearning";
 import CssLearning from "./pages/CssLearning";
 import ReactCheatsheet from "./pages/react";
+import CdnLinks from "./pages/cdn-links";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/css-learning" element={<CssLearning />} />
           <Route path="/ui-components" element={<UiComponents />} />
           <Route path="/react" element={<ReactCheatsheet />} />
+          <Route path="/cdn-links" element={<CdnLinks />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/auth" element={<Auth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

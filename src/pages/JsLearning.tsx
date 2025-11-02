@@ -10,12 +10,52 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 const JsLearning = () => {
   const [output, setOutput] = useState("");
-  const [selectedExample, setSelectedExample] = useState("variables");
+  const [selectedExample, setSelectedExample] = useState("installation");
   const [workspaceCode, setWorkspaceCode] = useState("");
   const [workspaceOutput, setWorkspaceOutput] = useState("");
   const [editableCode, setEditableCode] = useState("");
 
   const exampleGroups = {
+    "Getting Started": {
+      installation: {
+        title: "Installation & Setup",
+        description: "Learn how to set up a JavaScript development environment and run your first script.",
+        code: `// JavaScript can be run in two main environments: the browser and Node.js.
+
+// 1. In the Browser
+// No installation is needed! Just create an HTML file and include your script.
+
+// Create an index.html file:
+/*
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My First JS</title>
+</head>
+<body>
+  <h1>Hello from HTML!</h1>
+  <script src="myScript.js"></script>
+</body>
+</html>
+*/
+
+// Create a myScript.js file:
+// console.log("Hello from JavaScript file!");
+
+// Open index.html in your browser and check the console.
+
+// 2. Using Node.js
+// First, install Node.js from https://nodejs.org/
+// Then, create a file (e.g., app.js) and run it from your terminal.
+
+// Create an app.js file:
+console.log("Hello from Node.js!");
+
+// Run from terminal:
+// > node app.js
+`
+      },
+    },
     "Fundamentals": {
       variables: {
         title: "Variables",
@@ -584,7 +624,7 @@ console.log("sessionStorage is a browser feature for session-specific data stora
               {/* Sidebar */}
               <Card className="p-6 lg:col-span-1 h-fit">
                 <h2 className="text-xl font-bold mb-4">Topics</h2>
-                <Accordion type="single" collapsible defaultValue="Fundamentals" className="w-full">
+                <Accordion type="single" collapsible defaultValue="Getting Started" className="w-full">
                   {Object.entries(exampleGroups).map(([groupName, examples]) => (
                     <AccordionItem value={groupName} key={groupName}>
                       <AccordionTrigger>{groupName}</AccordionTrigger>
