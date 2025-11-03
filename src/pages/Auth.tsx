@@ -18,6 +18,8 @@ const Auth = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const api = import.meta.env.VITE_API_URL;
+    
 
     if ((isSignUp && !username) || !email || !password) {
       toast.error("Please fill in all fields");
